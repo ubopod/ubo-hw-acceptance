@@ -25,7 +25,6 @@ bash install.sh
 ```
 
 # Reboot
-
-'sudo reboot`
+`sudo reboot`
 
 
