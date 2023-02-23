@@ -30,7 +30,27 @@ cd setup/
 bash install.sh
 ```
 
-# Reboot
+## Reboot
 `sudo reboot`
+
+# What does it do?
+
+## Testing EEPROM ROM
+## Testing LCD
+## Testing Keypad
+## Testing LED Ring
+## Testing Light Sensor
+## Testing Temperature Sensor
+## Testing Speakers
+## Testing Microphones
+## Testing IR Transmitter and Receiver
+## Writing test results on EEPRON
+## Uploading test results to S3
+## Priting QA Label with serial number
+
+
+
+
+
 
 
