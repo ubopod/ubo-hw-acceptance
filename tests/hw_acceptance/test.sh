@@ -10,7 +10,7 @@ print_result () {
 
 # update files if there's an update on github master branch.
 git checkout master
-git pull --no-rebase https://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@github.com/ubopod/hw-test.git
+git pull --no-rebase https://github.com/ubopod/ubo-hw-acceptance.git
 # Install pip packages if requirements.txt is updated
 su -c 'pip install -r ../../setup/requirements.txt' pi
 
