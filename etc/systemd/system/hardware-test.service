@@ -1,0 +1,16 @@
+[Unit]
+Description=Hardware Test Service
+
+[Service]
+User=root
+ExecStart=/bin/bash /home/pi/ubo/tests/hw_acceptance/test.sh
+KillMode=control-group
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=simple
+RuntimeDirectory=ubo/
+WorkingDirectory=/home/pi/ubo/tests/hw_acceptance/
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target

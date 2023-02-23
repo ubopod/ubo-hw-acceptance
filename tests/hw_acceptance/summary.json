@@ -1,0 +1,8 @@
+{
+    "eeprom": {
+        "model": "24c32",
+        "bus_address": "0x50",
+        "test_result": false
+    },
+    "serial_number": "KSRUGCXEGA"
+}

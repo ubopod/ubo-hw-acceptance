@@ -1,2 +1,31 @@
-# ubo-hw-acceptance
-This is the script we use on the factory floor for hardware testing and acceptance 
+# hw-test
+This repo constrains test scripts for hardware acceptance tests
+
+## Setup
+
+Update your system and clone this repository 
+
+```
+sudo apt update  
+sudo apt upgrade  
+git clone https://{access_token}@github.com/ubopod/hw-test.git
+```
+
+rename working directory
+
+`mv ./hw-test ./ubo`
+
+## Install
+
+Run install script to setup everything
+
+```
+cd setup/  
+bash install.sh
+```
+
+# Reboot
+
+'sudo reboot`
+
+

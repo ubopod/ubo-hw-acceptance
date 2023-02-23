@@ -1,0 +1,17 @@
+[Unit]
+Description=Ubo LED Service
+
+[Service]
+User=root
+Environment=PYTHONPATH=/home/pi/.local/lib/python3.9/site-packages/
+ExecStart=/usr/bin/python3 /home/pi/ubo/system_services/led_manager.py
+KillMode=control-group
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=simple
+RuntimeDirectory=ubo/
+WorkingDirectory=/home/pi/ubo/
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target

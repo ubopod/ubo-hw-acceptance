@@ -1,0 +1,19 @@
+Testing events. Please, press CTRL-C to abort.
+187.980023: lirc protocol(sony12): scancode = 0x10015
+187.980036: event type EV_MSC(0x04): scancode = 0x10015
+187.980036: event type EV_SYN(0x00).
+188.490028: lirc protocol(sony12): scancode = 0x10015
+188.490044: event type EV_MSC(0x04): scancode = 0x10015
+188.490044: event type EV_SYN(0x00).
+189.000029: lirc protocol(sony12): scancode = 0x10015
+189.000043: event type EV_MSC(0x04): scancode = 0x10015
+189.000043: event type EV_SYN(0x00).
+189.520046: lirc protocol(sony12): scancode = 0x10015
+189.520064: event type EV_MSC(0x04): scancode = 0x10015
+189.520064: event type EV_SYN(0x00).
+190.030020: lirc protocol(sony12): scancode = 0x10015
+190.030032: event type EV_MSC(0x04): scancode = 0x10015
+190.030032: event type EV_SYN(0x00).
+190.530038: lirc protocol(sony12): scancode = 0x10015
+190.530057: event type EV_MSC(0x04): scancode = 0x10015
+190.530057: event type EV_SYN(0x00).

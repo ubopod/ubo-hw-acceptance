@@ -1,0 +1,57 @@
+8974.580048: lirc protocol(imon): scancode = 0x7fffffff
+8974.580068: event type EV_MSC(0x04): scancode = 0x7fffffff
+8974.580068: event type EV_SYN(0x00).
+8974.710064: lirc protocol(imon): scancode = 0x7fffffff
+8974.710086: event type EV_MSC(0x04): scancode = 0x7fffffff
+8974.710086: event type EV_SYN(0x00).
+8974.850110: lirc protocol(imon): scancode = 0x7fffffff
+8974.850131: event type EV_MSC(0x04): scancode = 0x7fffffff
+8974.850131: event type EV_SYN(0x00).
+8977.500062: lirc protocol(imon): scancode = 0x7effffff
+8977.500084: event type EV_MSC(0x04): scancode = 0x7effffff
+8977.500084: event type EV_SYN(0x00).
+8978.720075: lirc protocol(imon): scancode = 0x7effffff
+8978.720095: event type EV_MSC(0x04): scancode = 0x7effffff
+8978.720095: event type EV_SYN(0x00).
+8980.050078: lirc protocol(imon): scancode = 0x7effffff
+8980.050102: event type EV_MSC(0x04): scancode = 0x7effffff
+8980.050102: event type EV_SYN(0x00).
+8983.060113: lirc protocol(necx): scancode = 0xbf01
+8983.060135: event type EV_MSC(0x04): scancode = 0xbf01
+8983.060135: event type EV_SYN(0x00).
+8983.120065: lirc protocol(necx): scancode = 0xbf01 repeat
+8983.120090: event type EV_MSC(0x04): scancode = 0xbf01
+8983.120090: event type EV_SYN(0x00).
+8984.070077: lirc protocol(necx): scancode = 0xbf01
+8984.070097: event type EV_MSC(0x04): scancode = 0xbf01
+8984.070097: event type EV_SYN(0x00).
+8984.780072: lirc protocol(necx): scancode = 0xbf01
+8984.780096: event type EV_MSC(0x04): scancode = 0xbf01
+8984.780096: event type EV_SYN(0x00).
+8984.840061: lirc protocol(necx): scancode = 0xbf01 repeat
+8984.840088: event type EV_MSC(0x04): scancode = 0xbf01
+8984.840088: event type EV_SYN(0x00).
+9021.540064: lirc protocol(imon): scancode = 0x7fffffff
+9021.540087: event type EV_MSC(0x04): scancode = 0x7fffffff
+9021.540087: event type EV_SYN(0x00).
+9024.380074: lirc protocol(nec): scancode = 0x45a
+9024.380097: event type EV_MSC(0x04): scancode = 0x45a
+9024.380097: event type EV_SYN(0x00).
+9025.300190: lirc protocol(nec): scancode = 0x45a
+9025.300209: event type EV_MSC(0x04): scancode = 0x45a
+9025.300209: event type EV_SYN(0x00).
+9029.640065: lirc protocol(nec): scancode = 0x45a
+9029.640090: event type EV_MSC(0x04): scancode = 0x45a
+9030.050072: event type EV_SYN(0x00).
+9031.540060: lirc protocol(nec): scancode = 0x45a
+9031.540085: event type EV_MSC(0x04): scancode = 0x45a
+9031.540085: event type EV_SYN(0x00).
+9033.750163: lirc protocol(necx): scancode = 0xeac72a
+9033.750187: event type EV_MSC(0x04): scancode = 0xeac72a
+9033.750187: event type EV_SYN(0x00).
+9033.870084: lirc protocol(necx): scancode = 0xeac7aa
+9033.870103: event type EV_MSC(0x04): scancode = 0xeac7aa
+9033.870103: event type EV_SYN(0x00).
+9055.270110: lirc protocol(imon): scancode = 0x7fffffff
+9055.270134: event type EV_MSC(0x04): scancode = 0x7fffffff
+9055.270134: event type EV_SYN(0x00).

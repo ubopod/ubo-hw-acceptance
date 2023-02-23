@@ -1,0 +1,99 @@
+{
+    "serial_number": "",
+    "unique_id": "",
+    "version": "full",
+    "lcd": {
+        "model": "st7789",
+        "resolution": "240x240",
+        "test_result": true,
+        "test_report": {
+                "qrcode": false,
+                "red": false,
+                "green": false,
+                "blue": true
+            }
+    },
+
+    "keypad": {
+        "model": "aw9523",
+        "bus_address": "0x58",
+        "test_result": true,
+        "test_report": {
+                "0": false,
+                "1": false,
+                "2": false,
+                "up": true,
+                "down": true,
+                "back": true,
+                "home": true,
+                "mic": true
+            }
+    },
+
+    "led": {
+        "model": "neopixel",
+        "count": "27",
+        "test_result": true,
+        "test_report": {
+                "red": false,
+                "green": false,
+                "blue": true
+            }
+    },
+
+    "ambient": {
+        "model": "VEML7700",
+        "bus_address": "0x48",
+        "test_result": true,
+        "test_report": {
+                "reading" : 15000,
+                "baseline" : 11000,
+                "delta" : 4000
+            }
+    },
+
+    "temperature": {
+        "model": "pct2075",
+        "bus_address": "0x10",
+        "test_result": true,
+        "test_report": {
+                "degrees" : 32.5
+            }
+    },
+
+    "speakers": {
+        "model": "wm8960",
+        "bus_address": "0x1a",
+        "test_result": true,
+        "test_report": {
+                    "right": false,
+                    "left": false
+        }
+    },
+
+    "microphones": {
+        "model": "wm8960",
+        "bus_address": "0x1a",
+        "test_result": true,
+        "test_report": {
+                    "right": false,
+                    "left": false
+        }
+    },
+
+    "infrared": {
+        "receiver": "tsop75238",
+        "test_result": true,
+        "test_report": {
+                "sony12": true,
+                "nec": true
+            }
+    },
+
+    "eeprom": {
+        "model": "CAT24C32",
+        "bus_address": "0x51",
+        "test_result": true
+    }
+
+}
