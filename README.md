@@ -8,7 +8,7 @@ Update your system and clone this repository
 ```
 sudo apt update  
 sudo apt upgrade  
-git clone https://{access_token}@github.com/ubopod/hw-test.git
+git clone https://github.com/ubopod/ubo-hw-acceptance.git
 ```
 
 rename working directory
