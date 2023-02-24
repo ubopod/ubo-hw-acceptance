@@ -27,7 +27,7 @@ Run install script to setup everything
 
 ```
 cd setup/  
-bash install.sh
+sudo bash install.sh
 ```
 
 ## Reboot
@@ -39,7 +39,7 @@ Please note that the setup script already creates a bootup service called `hardw
 
 `sudo systemctl stop hardware-test` (or to disable run: `sudo systemctl disable hardware-test`)
 
-Then, go to `cd test/hw_acceptance` and run `bash test.sh`.
+Then, go to `cd test/hw_acceptance` and run `sudo bash test.sh`.
 
 The video shows the end-to-end test procedure:
 
