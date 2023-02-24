@@ -39,9 +39,7 @@ To to run the test script, go to `cd test/hw_acceptance` and run `bash test.sh`
 
 The video shows the end-to-end test procedure:
 
-
-
-<a href="https://www.youtube.com/watch?v=rZm-ffGFkDg" title="video text"></a>
+[![Test procedure](https://res.cloudinary.com/marcomontalbano/image/upload/v1677200367/video_to_markdown/images/youtube--X0lBcDt_kOM-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=X0lBcDt_kOM "Test procedure")
 
 
 # What does it do?
