@@ -41,7 +41,7 @@ The video shows the end-to-end test procedure:
 
 
 
-<a href="https://www.youtube.com/watch?v=rZm-ffGFkDg" title="video text"><img src="path/to/img.png" width="xxx" height="yyy"></a>
+<a href="[https://www.youtube.com/watch?v=rZm-ffGFkDg](https://www.youtube.com/watch?v=X0lBcDt_kOM&t=100s)" title="video text"></a>
 
 
 # What does it do?
