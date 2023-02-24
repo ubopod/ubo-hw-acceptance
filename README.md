@@ -78,10 +78,10 @@ After EEPROM test is performed, the bash script runs `tests/hw_acceptance/scan_i
 We also use this test to detect the device "trim". For example, if the scan only finds keypad IC, then we are dealing with a minimum SKU build and if it finds keypad IC, temperature sensor IC, light sensor IC, and audio IC, then the device under test is a full SKU build. 
 
 ```
-keypad IC address:
-temperature sensor address:
-light sensor address:
-audio (control) IC address:
+keypad IC address: 0x58
+temperature sensor address: 0x48
+ambient light sensor address: 0x10 
+audio (control) IC address: 0x1a
 ```
 
 ## Testing LCD
