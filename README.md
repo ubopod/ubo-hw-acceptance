@@ -56,7 +56,7 @@ When the test starts, it first run `tests/hw_acceptance/test_eeprom.py` script t
 
 If the EEPROM does not contain recognizable information and it has not been programmed previously, it writes all zeros to the memory (erases the content) and reads back the content to make sure it is all zero.
 
-Valid EEPROM entry must contain the following information:
+Valid EEPROM entry must contain non-zero `product_uuid`, and `serial_number` in the custom binary data (json-formatted).
 
 
 ```
@@ -90,6 +90,8 @@ After EEPROM test is performed, the bash script runs `tests/hw_acceptance/scan_i
 
 We also use this test to detect the device "trim". For example, if the scan only finds keypad IC, then we are dealing with a minimum SKU build and if it finds keypad IC, temperature sensor IC, light sensor IC, and audio IC, then the device under test is a full SKU build. 
 
+The following lists shows the addresses for each device connected to the bus.
+
 ```
 keypad IC address: 0x58
 temperature sensor address: 0x48
@@ -99,11 +101,13 @@ audio (control) IC address: 0x1a
 
 ## Testing LCD
 
-Test colors, test, and patterns, 
+Next, the test script proceeds to run `tests/hw_acceptance/test_lcd.py` to test the LCD display. It tests the capability to display colors and patterns. The test operaor must use the keypad to confirm (yes/no) seeing displayed color and pattern. If operator cannot see the displayed patterns/colors correctly, then the test would fail. The test result will be captured in the `serial_number.json` file.
 
 ## Testing Keypad
 
 test each key store separately
+
+The program will ask the test operator to press all buttons, to verify all of them are working correctly (see picture below)
 
 ## Testing LED Ring
 
