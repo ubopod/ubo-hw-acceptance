@@ -66,11 +66,13 @@ vendor "Ubo Technology Company"
 product "Ubo HAT"
 
 # Custom binary data
-
+SOMECUSTOMINFORMATIONHERE
 ```
-
+For more information, checkout EEPROM repo here.
 
 ## Scanning for I2C devices
+
+
 ## Testing LCD
 ## Testing Keypad
 ## Testing LED Ring
