@@ -38,6 +38,10 @@ bash install.sh
 The main script `test.sh` runs a suite of individual tests which are managed by seperate python scripts that function as standalone tests. The python scripts can be excecuted seperately to test only a certain functions. In the following section, we provide a brief overview of each test step, its purpos, and things to looh out for.
 
 ## Testing EEPROM ROM
+
+When the test starts, ./tests/
+
+
 ## Testing LCD
 ## Testing Keypad
 ## Testing LED Ring
