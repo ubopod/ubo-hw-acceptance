@@ -35,7 +35,11 @@ bash install.sh
 
 ## Run
 
-To to run the test script, go to `cd test/hw_acceptance` and run `bash test.sh`
+Please note that the setup script already creates a bootup service called `hardware-test` that runs the test automatically after you reboot the Pi. If you wish to run the test manually, disable this sevice first, by running 
+
+`sudo systemctl stop hardware-test` (or to disable run: `sudo systemctl disable hardware-test`)
+
+Then, go to `cd test/hw_acceptance` and run `bash test.sh`.
 
 The video shows the end-to-end test procedure:
 
