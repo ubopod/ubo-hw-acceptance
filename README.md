@@ -109,7 +109,11 @@ The next test verifies buttons on the keypad operate correctly by running the `t
 
 ![Keypad Test](images/keypad1.png)
 
+![Keypad Test](images/keypad2.png)
+
 ## Testing LED Ring
+
+
 
 incomplete ring
 
