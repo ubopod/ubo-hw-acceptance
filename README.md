@@ -117,9 +117,21 @@ The next test verifies buttons on the keypad operate correctly by running the `t
 
 ## Testing LED Ring
 
+Next, the script will attempt to test the LED light ring located around the circumference of the PCB. The program `tests/hw_acceptance/test_lcd.py`  lights up all the LEDs fully with red, green, and blue colors and will ask the operator to confirm if the ring is lit up completely with correct colors.
 
+<img
+  src="images/led-test-pass.png"
+  alt="Keypad Test Image"
+  title="Keypad Test"
+  style="display: inline-block; margin: 0 auto; max-width: 500px">
 
-incomplete ring
+If the LED test fails (for example, the ring does not light up at all or only lights up partially and not entirely), the operator must take note of the LED index that is not lighting up (index is written on the PCB silkscreen layer next to the LED, for example LED 20 in picture below), and follow repair instructions.
+
+<img
+  src="images/led-test-fail.png"
+  alt="Keypad Test Image"
+  title="Keypad Test"
+  style="display: inline-block; margin: 0 auto; max-width: 500px">
 
 ## Testing Light Sensor
 ## Testing Temperature Sensor
