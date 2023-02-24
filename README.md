@@ -85,8 +85,17 @@ audio (control) IC address: 0x1a
 ```
 
 ## Testing LCD
+
+Test colors, test, and patterns, 
+
 ## Testing Keypad
+
+test each key store separately
+
 ## Testing LED Ring
+
+incomplete ring
+
 ## Testing Light Sensor
 ## Testing Temperature Sensor
 ## Testing Speakers
