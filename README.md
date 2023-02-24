@@ -128,7 +128,7 @@ Next, the script will attempt to test the LED light ring located around the circ
 If the LED test fails (for example, the ring does not light up at all or only lights up partially and not entirely), the operator must take note of the LED index that is not lighting up (index is written on the PCB silkscreen layer next to the LED, for example LED 20 in picture below), and follow repair instructions.
 
 <img
-  src="images/led-test-fail2.png"
+  src="images/led-test-fail-2.png"
   alt="Keypad Test Image"
   title="Keypad Test"
   style="display: inline-block; margin: 0 auto; max-width: 500px">
