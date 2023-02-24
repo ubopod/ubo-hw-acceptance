@@ -70,8 +70,19 @@ SOMECUSTOMINFORMATIONHERE
 ```
 For more information, checkout EEPROM repo here.
 
-## Scanning for I2C devices
+If the EEPROM does not contain valid and recognable information, the script writes test result data, as well as a randomly generated serial number that would be unqiue to each HAT. If it already contains a valid serial number, the test would not write new information on it. It just reads the serial number for updating subsequenct test results. 
 
+## Scanning for I2C devices
+After EEPROM test is performed, the bash script runs `tests/hw_acceptance/scan_i2c.py` file that scans for devices detected on the I2C bus and compares the detected addresses with expected device addresses. If there's any discrepency or some device does not appear on the bus, the test would fail. 
+
+We also use this test to detect the device "trim". For example, if the scan only finds keypad IC, then we are dealing with a minimum SKU build and if it finds keypad IC, temperature sensor IC, light sensor IC, and audio IC, then the device under test is a full SKU build. 
+
+```
+keypad IC address:
+temperature sensor address:
+light sensor address:
+audio (control) IC address:
+```
 
 ## Testing LCD
 ## Testing Keypad
