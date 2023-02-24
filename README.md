@@ -39,7 +39,10 @@ To to run the test script, go to `cd test/hw_acceptance` and run `bash test.sh`
 
 The video shows the end-to-end test procedure:
 
-https://www.youtube.com/watch?v=rZm-ffGFkDg
+
+
+<a href="https://www.youtube.com/watch?v=rZm-ffGFkDg" title="video text"><img src="path/to/img.png" width="xxx" height="yyy"></a>
+
 
 # What does it do?
 
