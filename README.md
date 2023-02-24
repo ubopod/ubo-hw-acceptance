@@ -107,7 +107,7 @@ Next, the test script proceeds to run `tests/hw_acceptance/test_lcd.py` to test 
 
 The next test verifies buttons on the keypad operate correctly by running the `tests/hw_acceptance/test_buttons.py`. It shows a pattern on screen and asks the test operator to press all buttons, and verify all of them are working correctly (see picture below). The test won't proceed if there's an issue with any of the buttons on the keypad. (TODO: Better behavior would be to time out if no button is press for some time since the last button press.)
 
-![Keypad Test](./images/keypad1.png)
+![Keypad Test](images/keypad1.png)
 
 ## Testing LED Ring
 
