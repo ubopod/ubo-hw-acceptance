@@ -33,6 +33,14 @@ bash install.sh
 ## Reboot
 `sudo reboot`
 
+## Run
+
+To to run the test script, go to `cd test/hw_acceptance` and run `bash test.sh`
+
+The video shows the end-to-end test procedure:
+
+https://www.youtube.com/watch?v=rZm-ffGFkDg
+
 # What does it do?
 
 The main script `test.sh` runs a suite of individual tests which are managed by seperate python scripts that function as standalone tests. The python scripts can be excecuted seperately to test only a certain functions. In the following section, we provide a brief overview of each test step, its purpos, and things to looh out for.
