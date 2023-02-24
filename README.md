@@ -42,7 +42,7 @@ The video shows the end-to-end test procedure:
 [![Test procedure](https://res.cloudinary.com/marcomontalbano/image/upload/v1677200367/video_to_markdown/images/youtube--X0lBcDt_kOM-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=X0lBcDt_kOM "Test procedure")
 
 
-# What does it do?
+# What does the test script do?
 
 The main script `test.sh` runs a suite of individual tests which are managed by seperate python scripts that function as standalone tests. The python scripts can be excecuted seperately to test only a certain functions. In the following section, we provide a brief overview of each test step, its purpos, and things to looh out for.
 
