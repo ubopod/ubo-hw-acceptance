@@ -10,14 +10,10 @@ Update your system and clone this repository
 ```
 sudo apt update  
 sudo apt upgrade  
-git clone https://github.com/ubopod/ubo-hw-acceptance.git
+git clone https://github.com/ubopod/ubo-hw-acceptance.git ubo
 ```
 
-rename working directory
-
-`mv ./ubo-hw-acceptance /home/pi/ubo`
-
-If you end up using a different directory name or location, make sure you change the first line in `install.sh` script to reflact that:
+If you end up using a different directory name or location other than `/home/pi/ubo`, make sure you change the first line in `install.sh` script to reflact that:
 
 `UBO_HOME=/home/pi/ubo` in `setup/install.sh` 
 
