@@ -13,7 +13,7 @@ logger = logging.getLogger("led_client")
 
 
 class LEDClient:
-    ''' The nethods of this class send commands to the LED manager, 
+    ''' The methods of this class send commands to the LED manager, 
     which runs with root previlages due to hardware DMA security constraints.
     The commands are sent through a socket connection to the LED manager.
 
