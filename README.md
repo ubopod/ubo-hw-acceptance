@@ -111,6 +111,12 @@ The next test verifies buttons on the keypad operate correctly by running the `t
 
 ![Keypad Test](images/keypad2.png)
 
+<img
+  src="images/keypad1.png"
+  alt="Keypad Test Image"
+  title="Keypad Test"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
+
 ## Testing LED Ring
 
 
