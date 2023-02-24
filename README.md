@@ -115,7 +115,7 @@ The next test verifies buttons on the keypad operate correctly by running the `t
   src="images/keypad1.png"
   alt="Keypad Test Image"
   title="Keypad Test"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  style="display: inline-block; margin: 0 auto; max-width: 500px">
 
 ## Testing LED Ring
 
