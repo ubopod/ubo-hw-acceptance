@@ -11,9 +11,10 @@ print_result () {
 # update files if there's an update on github master branch.
 git checkout master
 git pull --no-rebase https://github.com/ubopod/ubo-hw-acceptance.git
-# Activate venv and install pip packages if requirements.txt is updated
-source /home/pi/.venv/bin/activate
-pip install -r ../../setup/requirements.txt
+# Sync venv with project dependencies
+UBO_HOME=/home/pi/ubo
+uv sync --directory $UBO_HOME
+source $UBO_HOME/.venv/bin/activate
 
 #read -p "Press any key for EEPROM test" -n1 -s
 echo -e "\n\n========= Starting EEPROM Test ============"

@@ -1,0 +1,36 @@
+[project]
+name = "ubo-hw-acceptance"
+version = "0.1.0"
+requires-python = ">=3.9"
+dependencies = [
+    "adafruit-blinka",
+    "adafruit-circuitpython-aw9523",
+    "adafruit-circuitpython-busdevice",
+    "adafruit-circuitpython-irremote",
+    "adafruit-circuitpython-neopixel",
+    "adafruit-circuitpython-pct2075",
+    "adafruit-circuitpython-pixelbuf",
+    "adafruit-circuitpython-register",
+    "adafruit-circuitpython-rgb-display",
+    "adafruit-circuitpython-veml7700",
+    "adafruit-gpio",
+    "adafruit-platformdetect",
+    "adafruit-pureio",
+    "adafruit-ssd1306",
+    "rpi-eeprom[gpio]",
+    "rpi-ws281x",
+    "markdown",
+    "numpy",
+    "pillow",
+    "pigpio",
+    "pyaudio",
+    "pycairo",
+    "pyserial",
+    "pyusb",
+    "python-dateutil",
+    "python-json-logger",
+    "qrcode",
+    "boto3",
+    "botocore",
+    "brother-ql",
+]
