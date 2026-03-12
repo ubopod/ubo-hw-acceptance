@@ -82,3 +82,5 @@ arm_boost=1
 [all]
 dtoverlay=i2s-mmap
 dtparam=i2s=on
+dtoverlay=i2c-gpio,i2c_gpio_sda=0,i2c_gpio_scl=1,bus=9
+
