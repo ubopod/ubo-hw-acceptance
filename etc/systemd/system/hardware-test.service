@@ -7,6 +7,7 @@ Environment=PATH=/home/pi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/u
 ExecStart=/bin/bash /home/pi/ubo/tests/hw_acceptance/test.sh
 KillMode=control-group
 Restart=on-failure
+RestartSec=10
 RestartPreventExitStatus=255
 Type=simple
 RuntimeDirectory=ubo/

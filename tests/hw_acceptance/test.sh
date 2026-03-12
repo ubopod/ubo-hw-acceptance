@@ -98,3 +98,6 @@ print_result "InfraRed   " $ir
 echo -e "\n\n========= Uploading Summary Data ============"
 ## Upload to S3 Bucket
 python3 test_summarize.py
+
+# Exit successfully so systemd doesn't restart — test failures are expected, not service failures
+exit 0
