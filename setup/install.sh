@@ -6,9 +6,9 @@ pip3 install --upgrade pip
 pip3 install -r $UBO_HOME/setup/requirements.txt
 
 #######################################
-# Install SeeedStudio for speakers
+# Install WM8960 audio driver
 ######################################
-/bin/bash $UBO_HOME/setup/install_seeedstudio.sh
+/bin/bash $UBO_HOME/setup/install_wm8960.sh
 
 #######################################
 # Install EEPROM tools
