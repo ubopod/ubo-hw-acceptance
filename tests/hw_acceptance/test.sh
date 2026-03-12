@@ -12,9 +12,14 @@ print_result () {
 git config --global --add safe.directory /home/pi/ubo
 git checkout development
 git pull --no-rebase https://github.com/ubopod/ubo-hw-acceptance.git development
-# Sync venv with project dependencies
+# Install uv if not already present
 UBO_HOME=/home/pi/ubo
 UV=/home/pi/.local/bin/uv
+if [ ! -x "$UV" ]; then
+	echo "Installing uv..."
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+# Sync venv with project dependencies
 $UV sync --directory $UBO_HOME
 source $UBO_HOME/.venv/bin/activate
 
