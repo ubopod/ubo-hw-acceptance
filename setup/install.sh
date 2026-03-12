@@ -20,7 +20,7 @@ sudo apt install ir-keytable
 #######################################
 # Update config files
 ######################################
-sudo cp $UBO_HOME/boot/config.txt /boot/config.txt
+sudo cp $UBO_HOME/boot/config.txt /boot/firmware/config.txt
 sudo cp $UBO_HOME/etc/modprobe.d/snd-blacklist.conf /etc/modprobe.d/snd-blacklist.conf
 #######################################
 # Add systemd services
