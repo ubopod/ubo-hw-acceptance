@@ -3,7 +3,7 @@ export PATH=$PATH:/home/pi/.local/bin
 
 curl -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=/home/pi/.local/bin sh
 
-sudo apt install -y python3-gpiozero python3-dev
+sudo apt install -y python3-gpiozero python3-dev portaudio19-dev
 
 uv sync --directory $UBO_HOME
 
