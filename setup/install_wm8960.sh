@@ -21,7 +21,7 @@ fi
 apt-get -fy install
 apt-get -y update
 apt-get -y install \
-  raspberrypi-kernel-headers \
+  linux-headers-rpi-v8 \
   dkms \
   git \
   i2c-tools \
