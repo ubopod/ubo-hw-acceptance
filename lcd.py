@@ -77,15 +77,16 @@ class LCD:
             BAUDRATE = 24000000
             # Setup SPI bus using hardware SPI:
             spi = board.SPI()
-            # Configuration for CS and DC pins (these are PiTFT defaults):
-            cs_pin = digitalio.DigitalInOut(board.CE0)
+            # DC pin for command/data signaling:
             dc_pin = digitalio.DigitalInOut(board.D25)
             #try:
+            # cs=None lets the SPI hardware manage chip select (CE0),
+            # avoiding lgpio 'GPIO busy' conflict with the SPI kernel driver.
             self.lcd = st7789.ST7789(spi,
                                      height=self.height, width=self.width,
                                      y_offset=80, x_offset=0,
                                      rotation=180,
-                                     cs=cs_pin,
+                                     cs=None,
                                      dc=dc_pin,
                                      baudrate=BAUDRATE,
                                      )
