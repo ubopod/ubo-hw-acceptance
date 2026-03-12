@@ -1,7 +1,7 @@
 # Ubo Hardware Acceptance Tests
 This repo constrains test scripts for hardware acceptance tests that are performed during manufacturing by the factory. 
 
-Note: The test results get uploaded to S3 bucket at the end, but due to security reasons AWS keys have been removed from this script. If you wish to have the test resultuploaded to your own S3 service, replace keys with valid keys.
+Note: Test results are uploaded to S3 at the end of the test suite. See [S3 Upload Credentials](#s3-upload-credentials) below for setup. If no credentials are configured, the upload step is skipped with a warning and all other tests still run normally.
 
 ## Setup
 
@@ -36,6 +36,19 @@ Please note that the setup script already creates a bootup service called `hardw
 `sudo systemctl stop hardware-test` (or to disable run: `sudo systemctl disable hardware-test`)
 
 Then, go to `cd tests/hw_acceptance` and run `sudo bash test.sh`. The test script activates the `/home/pi/.venv` virtual environment automatically before running.
+
+## S3 Upload Credentials
+
+Test results are uploaded to an S3 bucket at the end of the test suite. To enable uploads, create a `tests/hw_acceptance/.env` file with your AWS credentials:
+
+```
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+```
+
+A `.env.example` template is provided for reference. The `.env` file is gitignored and must never be committed.
+
+If no `.env` file or credentials are present, the test suite will log a warning and skip the upload — all other tests still run normally.
 
 The video shows the end-to-end test procedure:
 

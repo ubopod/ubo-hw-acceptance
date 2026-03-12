@@ -20,7 +20,17 @@ from test_report import read_json, update_json, get_serial_number, JSON_PATH
 from print_label import print_label
 from upload_test_report import upload_file
 
-os.environ["AWS_SHARED_CREDENTIALS_FILE"] = "/home/pi/.aws/credentials"
+def load_dotenv(path):
+    if not os.path.exists(path):
+        return
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                key, _, value = line.partition('=')
+                os.environ.setdefault(key.strip(), value.strip())
+
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
 
 lcd = LCD()
 bucket_name = "ubo-hw-test-logs"

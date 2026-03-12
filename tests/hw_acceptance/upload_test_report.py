@@ -5,10 +5,6 @@ import os
 import threading
 import sys
 
-ACCESS_KEY = ""
-SECRET_KEY = ""
-
-
 class ProgressPercentage(object):
 
     def __init__(self, filename):
@@ -42,21 +38,27 @@ def upload_file(file_name, bucket, object_name=None):
     if object_name is None:
         object_name = os.path.basename(file_name)
 
+    access_key = os.environ.get("AWS_ACCESS_KEY_ID", "")
+    secret_key = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+    if not access_key or not secret_key:
+        logging.warning("AWS credentials not found — skipping S3 upload")
+        return False
+
     # Upload the file
     s3_client = boto3.client(
     's3',
-    aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_KEY,
-    #aws_session_token=SESSION_TOKEN
+    aws_access_key_id=access_key,
+    aws_secret_access_key=secret_key,
     )
     try:
         response = s3_client.upload_file(
-                        file_name, 
-                        bucket, 
-                        object_name, 
+                        file_name,
+                        bucket,
+                        object_name,
                         Callback=ProgressPercentage(file_name))
     except ClientError as e:
         logging.error(e)
+        return False
     return True
 
 
