@@ -68,14 +68,14 @@ def perform_scan(summary=None):
             logger.info("Found %d devices on I2C bus", len(scanned_addressed))
             summary["i2c_bus"]["status"] = "functional_bus"
             if '0x1a' in scanned_addressed:
-                logger.warning("Audio chip driver is not loaded")
-            else:
                 if os.system("i2cdetect -y 1 | grep 'UU'") == 0:
                     logger.info("Audio IC detected")
                     summary["speakers"]["bus_address"] = "0x1a"
                     summary["microphones"]["bus_address"] = "0x1a"
                 else:
-                    logger.warning("No audio IC detected")
+                    logger.warning("Audio chip driver is not loaded")
+            else:
+                logger.warning("No audio IC detected")
             if '0x10' in scanned_addressed:
                 logger.info("Light sensor IC detected")
                 summary["ambient"]["bus_address"] = '0x10'
