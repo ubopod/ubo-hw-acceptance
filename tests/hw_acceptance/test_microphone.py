@@ -94,7 +94,7 @@ class state_machine(KEYPAD):
             lcd.display([(1, "Playing back", 0, "white"), (2, "Left Mic ", 0, "white"), (3, "...", 0, "white")], 23)
         else:
             lcd.display([(1, "Playing back", 0, "white"), (2, "Right Mic", 0, "white"), (3, "...", 0, "white")], 23)
-        os.system("aplay -D plughw:CARD=seeed2micvoicec,DEV=0 -c 1 -f S16_LE " + filename)
+        os.system("aplay -D plughw:CARD=wm8960soundcard,DEV=0 -c 1 -f S16_LE " + filename)
         message = "Did you hear your voice?"
         if self.repeat_counter == self.num_retries:
             lcd.show_prompt(message, [{"text": "Yes", "color": "green"}, {"text": "No", "color": "red"}])
@@ -120,10 +120,10 @@ def main():
         while S.mic_switch_status is False:
             time.sleep(0.5)
         lcd.display([(1, "Say Something", 0, "white"), (2, "for 5 seconds", 0, "white"), (3, "to test mic", 0, "white")], 20)
-        os.system("aplay -D plughw:CARD=seeed2micvoicec,DEV=0 -c 1 -f S16_LE mic_test_instructions.wav")
-        os.system("aplay -D plughw:CARD=seeed2micvoicec,DEV=0 -c 1 -f S16_LE beep.wav")
+        os.system("aplay -D plughw:CARD=wm8960soundcard,DEV=0 -c 1 -f S16_LE mic_test_instructions.wav")
+        os.system("aplay -D plughw:CARD=wm8960soundcard,DEV=0 -c 1 -f S16_LE beep.wav")
         lcd.display([(1, "Recording", 0, "white"), (2, "your voice", 0, "white"), (3, "...", 0, "white")], 23)
-        os.system("arecord -D plughw:CARD=seeed2micvoicec,DEV=0 --duration=5 --file-type=wav "
+        os.system("arecord -D plughw:CARD=wm8960soundcard,DEV=0 --duration=5 --file-type=wav "
                    "--format=S16_LE --rate=16000 --channels=2 mic_test.wav")
         os.system("ffmpeg -y -i mic_test.wav -map_channel 0.0.0 "
                    "mic_test_left.wav -map_channel 0.0.1 mic_test_right.wav")

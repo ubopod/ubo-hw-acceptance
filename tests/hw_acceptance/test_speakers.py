@@ -84,7 +84,7 @@ class state_machine(KEYPAD):
 
     def play_sound_and_prompt(self, channel):
         lcd.display([(1, "Playing", 0, "white"), (2, "audio on", 0, "white"), (3, "the " + channel, 0, "green"), (4, "channel", 0, "white")], 25)
-        os.system("aplay -D plughw:CARD=seeed2micvoicec,DEV=0 -c 2 -f S16_LE " + channel + ".wav")
+        os.system("aplay -D plughw:CARD=wm8960soundcard,DEV=0 -c 2 -f S16_LE " + channel + ".wav")
         message = "Did you hear " + channel + " channel?"
         if self.repeat_counter == self.num_retries:
             lcd.show_prompt(message, [{"text": "Yes", "color": "green"}, {"text": "No", "color": "red"}])
