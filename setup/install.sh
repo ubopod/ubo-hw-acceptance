@@ -13,11 +13,6 @@ uv sync --directory $UBO_HOME
 /bin/bash $UBO_HOME/setup/install_wm8960.sh
 
 #######################################
-# Install EEPROM tools
-######################################
-/bin/bash $UBO_HOME/setup/install_eeprom.sh
-
-#######################################
 # Install Infra Red tools
 ######################################
 sudo apt install ir-keytable
