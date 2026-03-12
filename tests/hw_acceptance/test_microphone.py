@@ -125,8 +125,9 @@ def main():
         lcd.display([(1, "Recording", 0, "white"), (2, "your voice", 0, "white"), (3, "...", 0, "white")], 23)
         os.system("arecord -D plughw:CARD=wm8960soundcard,DEV=0 --duration=5 --file-type=wav "
                    "--format=S16_LE --rate=16000 --channels=2 mic_test.wav")
-        os.system("ffmpeg -y -i mic_test.wav -map_channel 0.0.0 "
-                   "mic_test_left.wav -map_channel 0.0.1 mic_test_right.wav")
+        os.system("ffmpeg -y -i mic_test.wav -filter_complex \"channelsplit=channel_layout=stereo[left][right]\" \
+                    -map \"[left]\" mic_test_left.wav \
+                    -map \"[right]\" mic_test_right.wav")
         S.play_sound_and_prompt("mic_test_left.wav")
         logger.debug("State: %d", S.state_index)
         while S.state_index != 3:
