@@ -1,9 +1,13 @@
 UBO_HOME=/home/pi/ubo
 export PATH=$PATH:/home/pi/.local/bin
 
-python3 -m pip install --upgrade pip
-pip3 install --upgrade pip
-pip3 install -r $UBO_HOME/setup/requirements.txt
+sudo apt install -y python3-gpiozero
+
+python3 -m venv --system-site-packages /home/pi/.venv
+source /home/pi/.venv/bin/activate
+
+pip install --upgrade pip
+pip install -r $UBO_HOME/setup/requirements.txt
 
 #######################################
 # Install WM8960 audio driver
@@ -18,7 +22,7 @@ pip3 install -r $UBO_HOME/setup/requirements.txt
 #######################################
 # Install Infra Red tools
 ######################################
-sudo apt install ir-keytable 
+sudo apt install ir-keytable
 
 #######################################
 # Update config files

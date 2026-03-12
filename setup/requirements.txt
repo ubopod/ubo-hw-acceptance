@@ -14,7 +14,6 @@ Adafruit-PureIO==1.1.9
 Adafruit-SSD1306==1.6.2
 rpi-eeprom[gpio]
 rpi-ws281x>=4.3.4
-RPi.GPIO==0.7.1
 Markdown==3.3.4
 numpy==1.22.3
 Pillow>=9.2

@@ -19,10 +19,10 @@ If you end up using a different directory name or location other than `/home/pi/
 
 ## Install
 
-Run install script to setup everything
+Run install script to setup everything. The script installs `python3-gpiozero` via apt, creates a Python virtual environment at `/home/pi/.venv` with `--system-site-packages` (so apt-installed packages like gpiozero are accessible), and installs the remaining pip dependencies into that venv.
 
 ```
-cd setup/  
+cd setup/
 sudo bash install.sh
 ```
 
@@ -31,11 +31,11 @@ sudo bash install.sh
 
 ## Run
 
-Please note that the setup script already creates a bootup service called `hardware-test` that runs the test automatically after you reboot the Pi. If you wish to run the test manually, disable this sevice first, by running 
+Please note that the setup script already creates a bootup service called `hardware-test` that runs the test automatically after you reboot the Pi. If you wish to run the test manually, disable this sevice first, by running
 
 `sudo systemctl stop hardware-test` (or to disable run: `sudo systemctl disable hardware-test`)
 
-Then, go to `cd test/hw_acceptance` and run `sudo bash test.sh`.
+Then, go to `cd tests/hw_acceptance` and run `sudo bash test.sh`. The test script activates the `/home/pi/.venv` virtual environment automatically before running.
 
 The video shows the end-to-end test procedure:
 

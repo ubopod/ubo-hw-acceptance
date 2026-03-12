@@ -4,6 +4,7 @@ import board
 import adafruit_aw9523
 
 from adafruit_bus_device import i2c_device
+from gpiozero import Button
 #i2c = busio.I2C(board.SCL, board.SDA)
 i2c = board.I2C()
 time.sleep(1) #added
@@ -17,11 +18,9 @@ time.sleep(1) #added
 aw.directions = 0x0000
 time.sleep(1)
 
-import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
 # Set this to the GPIO of the interrupt:
 INT_EXPANDER = 5
-GPIO.setup(INT_EXPANDER, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+button = Button(INT_EXPANDER)
 
 buffer = bytearray(2)
 buffer[0]=0x00
@@ -54,5 +53,5 @@ while True:
     # print("Int: ".format(aw.inputs))
     print("Inputs: {:016b}".format(aw.inputs))
     time.sleep(1)
-    print(GPIO.input(5))
+    print(button.is_pressed)
     time.sleep(1)

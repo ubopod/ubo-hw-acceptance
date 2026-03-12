@@ -19,13 +19,6 @@ import textwrap
 import os
 import sys
 
-try:
-    import RPi.GPIO as GPIO
-    gpio_enable = True
-except Exception:
-    gpio_enable = False
-
-
 import configparser
 
 logger = logging.getLogger(__name__)
@@ -36,9 +29,6 @@ DIR = LIB_PATH + '/ui/'
 # UI_DIR = './ui/font-icon/font-awesome'
 TEXT_OUT = './fake_lcd'
 IMG_OUT = './screen.png'
-
-if gpio_enable:
-    GPIO.setmode(GPIO.BCM)
 
 
 class LCD:
@@ -79,13 +69,6 @@ class LCD:
         # self.CS = 9
         # self.SPI_PORT = 0
         # self.SPI_DEVICE = 0
-        if gpio_enable:
-            if (GPIO.getmode() != 11):
-                GPIO.setmode(GPIO.BCM)
-            else:
-                logger.debug("GPIO is already BCM")
-        else:
-            logger.debug("GPIO not set")
         # proper fix incoming: version is sometimes not set right
         self.width = 240
         self.height = 240
@@ -97,7 +80,6 @@ class LCD:
             # Configuration for CS and DC pins (these are PiTFT defaults):
             cs_pin = digitalio.DigitalInOut(board.CE0)
             dc_pin = digitalio.DigitalInOut(board.D25)
-            reset_pin = digitalio.DigitalInOut(board.D24)
             #try:
             self.lcd = st7789.ST7789(spi,
                                      height=self.height, width=self.width,
@@ -105,13 +87,8 @@ class LCD:
                                      rotation=180,
                                      cs=cs_pin,
                                      dc=dc_pin,
-                                     rst=reset_pin,
                                      baudrate=BAUDRATE,
                                      )
-            # This line is necessary to keep the GPIO 24 as input 
-            # to make sure LCD initialization does not change GPIO function
-            # which interferes with the IR receiver.
-            GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         return
 
     def ellipse(self, radius, fill, outline=None, width=0):

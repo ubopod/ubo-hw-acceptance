@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+from gpiozero import Button
 from adafruit_bus_device import i2c_device
 import adafruit_aw9523
 from PIL import Image, ImageDraw, ImageFont
@@ -55,10 +55,8 @@ class KEYPAD(object):
 
         
     def init_i2c(self):
-        GPIO.setmode(GPIO.BCM)
         i2c = board.I2C()
-        # Set this to the GPIO of the interrupt:
-        GPIO.setup(INT_EXPANDER, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        self.button = Button(INT_EXPANDER)
         try:
             self.aw = adafruit_aw9523.AW9523(i2c, 0x58)
             new_i2c = i2c_device.I2CDevice(i2c, 0x58)
@@ -119,8 +117,7 @@ class KEYPAD(object):
         logger.info("Mic switch is %s", self.mic_switch_status)
         time.sleep(0.5)
         time.sleep(0.5)
-        GPIO.add_event_detect(INT_EXPANDER, GPIO.FALLING, callback=self.key_press_cb)
-        #GPIO.add_event_detect(INT_EXPANDER, GPIO.BOTH, callback=self.key_press_cb, bouncetime=200)
+        self.button.when_pressed = self.key_press_cb
 
     def key_press_cb(self, channel):
         self.last_inputs = self.aw.inputs
