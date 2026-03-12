@@ -1,7 +1,7 @@
 UBO_HOME=/home/pi/ubo
 export PATH=$PATH:/home/pi/.local/bin
 
-curl -LsSf https://astral.sh/uv/install.sh | sh
+curl -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=/home/pi/.local/bin sh
 
 sudo apt install -y python3-gpiozero
 

@@ -17,7 +17,7 @@ UBO_HOME=/home/pi/ubo
 UV=/home/pi/.local/bin/uv
 if [ ! -x "$UV" ]; then
 	echo "Installing uv..."
-	curl -LsSf https://astral.sh/uv/install.sh | sh
+	curl -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=/home/pi/.local/bin sh
 fi
 # Sync venv with project dependencies
 $UV sync --directory $UBO_HOME
