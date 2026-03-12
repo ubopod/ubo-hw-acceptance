@@ -8,13 +8,14 @@ print_result () {
 	fi
 }
 
-# update files if there's an update on github master branch.
+# update files if there's an update on github main branch.
 git config --global --add safe.directory /home/pi/ubo
-git checkout master
-git pull --no-rebase https://github.com/ubopod/ubo-hw-acceptance.git
+git checkout development
+git pull --no-rebase https://github.com/ubopod/ubo-hw-acceptance.git development
 # Sync venv with project dependencies
 UBO_HOME=/home/pi/ubo
-uv sync --directory $UBO_HOME
+UV=/home/pi/.local/bin/uv
+$UV sync --directory $UBO_HOME
 source $UBO_HOME/.venv/bin/activate
 
 # Initialize all test results to failure (1) so skipped tests report FAIL
