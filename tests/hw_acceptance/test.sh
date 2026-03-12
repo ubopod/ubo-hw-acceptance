@@ -8,10 +8,7 @@ print_result () {
 	fi
 }
 
-# update files if there's an update on github main branch.
-git config --global --add safe.directory /home/pi/ubo
 git checkout development
-git pull --no-rebase https://github.com/ubopod/ubo-hw-acceptance.git development
 # Install uv if not already present
 UBO_HOME=/home/pi/ubo
 UV=/home/pi/.local/bin/uv
