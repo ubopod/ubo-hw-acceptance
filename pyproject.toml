@@ -24,7 +24,7 @@ dependencies = [
     "pillow",
     "pigpio",
     "pyaudio",
-    "pycairo",
+
     "pyserial",
     "pyusb",
     "python-dateutil",
