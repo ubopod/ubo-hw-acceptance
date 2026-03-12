@@ -19,7 +19,8 @@ if [ ! -x "$UV" ]; then
 	echo "Installing uv..."
 	curl -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=/home/pi/.local/bin sh
 fi
-# Sync venv with project dependencies
+# Sync venv with project dependencies (allow access to system-installed RPi packages)
+$UV venv --system-site-packages --directory $UBO_HOME 2>/dev/null || true
 $UV sync --directory $UBO_HOME
 source $UBO_HOME/.venv/bin/activate
 

@@ -17,7 +17,7 @@ dependencies = [
     "adafruit-platformdetect",
     "adafruit-pureio",
     "adafruit-ssd1306",
-    "rpi-lgpio",
+
     "rpi-eeprom[gpio]",
     "rpi-ws281x",
     "markdown",
