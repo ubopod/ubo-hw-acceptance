@@ -1,4 +1,5 @@
 # for font reference: https://www.dafont.com/heydings-icons.font
+import logging
 
 try:
     import board
@@ -6,12 +7,12 @@ try:
     import adafruit_rgb_display.st7789 as st7789  # pylint: disable=unused-import
     import Adafruit_SSD1306
 except Exception as err:
-    print("Possibly unsupported board: " + str(err))
+    logging.getLogger(__name__).warning("Possibly unsupported board: %s", err)
 
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
-import logging.config
+import logging
 import qrcode
 import time
 import textwrap
@@ -21,19 +22,16 @@ import sys
 try:
     import RPi.GPIO as GPIO
     gpio_enable = True
-except:
+except Exception:
     gpio_enable = False
 
 
 import configparser
 
+logger = logging.getLogger(__name__)
 
-# CONFIG_FILE = '/etc/ubo/config.ini'
-# LOG_CONFIG = "/etc/ubo/logging.ini"
-# logging.config.fileConfig(LOG_CONFIG,
-#                           disable_existing_loggers=False)
 LIB_PATH = os.path.dirname(os.path.abspath(__file__))
-print(LIB_PATH)
+logger.debug("LIB_PATH: %s", LIB_PATH)
 DIR = LIB_PATH + '/ui/'
 # UI_DIR = './ui/font-icon/font-awesome'
 TEXT_OUT = './fake_lcd'
@@ -85,9 +83,9 @@ class LCD:
             if (GPIO.getmode() != 11):
                 GPIO.setmode(GPIO.BCM)
             else:
-                print("GPIO is already BCM")
+                logger.debug("GPIO is already BCM")
         else:
-            print("GPIO not set")
+            logger.debug("GPIO not set")
         # proper fix incoming: version is sometimes not set right
         self.width = 240
         self.height = 240
@@ -432,7 +430,7 @@ class LCD:
         i = 0
         corner = None
         for item in options:
-            print(item)
+            logger.debug("Prompt option: %s", item)
             text = item["text"]
             color = item["color"]
             y = y + int(self.menu_row_y_size / 2) + self.menu_row_skip
@@ -590,8 +588,5 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print('Interrupted')
-        try:
-            sys.exit(0)
-        except SystemExit:
-            os._exit(0)
+        logger.info("Interrupted")
+        sys.exit(0)

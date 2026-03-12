@@ -1,48 +1,56 @@
-# This script resets the EEPROM to blank state
-
-import time
-import board
+import logging
 import os
 import sys
-import string
-import random
-import json
+import time
 
-up_dir = os.path.dirname(os.path.abspath(__file__))+'/../../'
-print(up_dir)
+up_dir = os.path.dirname(os.path.abspath(__file__)) + '/../../'
 sys.path.append(up_dir)
-from lcd import LCD as LCD
-from eeprom import *
+
+from logging_setup import setup_logging
+setup_logging()
+logger = logging.getLogger(__name__)
+
+from lcd import LCD
+from eeprom import HatEEPROM, EEPROMNotFoundError
+
 lcd = LCD()
 lcd.set_lcd_present(1)
 
 
 def main():
-    """ Script to self test EEPROM"""
-    test_result = False
-    info = {}
-    lcd.display([(1,"Erasing",0,"white"), (2,"EEPROM",0,"white"), (3,"Content", 0,"white")], 20)
-    e2p = EEPROM()
-    if not e2p.bus_address:
-        # check if eeprom ic2bus is working
-        lcd.display([(1,"No EEPROM",0,"white"), (2,"IC Detected!",0,"white"), (3,chr(50),1,"red")], 20)
-        time.sleep(1)
-        # abort procedure here...
-        return
+    lcd.display([
+        (1, "Erasing", 0, "white"),
+        (2, "EEPROM", 0, "white"),
+        (3, "Content", 0, "white"),
+    ], 20)
     try:
-        e2p.reset_eeprom()
-        lcd.display([(1,"EEPROM Reset",0,"white"), (2,"Successful!",0,"white"), (3,chr(56),1,"green")], 20)
-    except Exception as e:
-        print(e)
-        lcd.display([(1,"EEPROM Reset",0,"white"), (2,"Failed!",0,"white"), (3,chr(50),1,"red")], 20)
+        with HatEEPROM() as eeprom:
+            eeprom.reset()
+            lcd.display([
+                (1, "EEPROM Reset", 0, "white"),
+                (2, "Successful!", 0, "white"),
+                (3, chr(56), 1, "green"),
+            ], 20)
+    except EEPROMNotFoundError:
+        logger.error("No EEPROM IC detected on I2C bus")
+        lcd.display([
+            (1, "No EEPROM", 0, "white"),
+            (2, "IC Detected!", 0, "white"),
+            (3, chr(50), 1, "red"),
+        ], 20)
+        time.sleep(1)
+    except Exception:
+        logger.exception("EEPROM reset failed")
+        lcd.display([
+            (1, "EEPROM Reset", 0, "white"),
+            (2, "Failed!", 0, "white"),
+            (3, chr(50), 1, "red"),
+        ], 20)
 
 
 if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print('Interrupted')
-        try:
-            sys.exit(0)
-        except SystemExit:
-            os._exit(0)
+        logger.info("Interrupted")
+        sys.exit(0)

@@ -4,17 +4,8 @@ from botocore.exceptions import ClientError
 import os
 import threading
 import sys
-from lcd import LCD
-from time import sleep
-from eeprom import *
-#from lcd import LCD
 
-#lcd = LCD()
-
-#AWS Credentials
-#IAM User: ubo
-
-ACCESS_KEY =""
+ACCESS_KEY = ""
 SECRET_KEY = ""
 
 
@@ -52,7 +43,6 @@ def upload_file(file_name, bucket, object_name=None):
         object_name = os.path.basename(file_name)
 
     # Upload the file
-    #s3_client = boto3.client('s3')
     s3_client = boto3.client(
     's3',
     aws_access_key_id=ACCESS_KEY,

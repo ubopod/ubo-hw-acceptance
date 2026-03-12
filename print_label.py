@@ -1,15 +1,19 @@
+import logging
+import os
+import sys
+from datetime import datetime
+
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 from brother_ql.conversion import convert
 from brother_ql.backends.helpers import send
 from brother_ql.raster import BrotherQLRaster
-import os
-import sys
-from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 LIB_PATH = os.path.dirname(os.path.abspath(__file__))
-print(LIB_PATH)
+logger.debug("LIB_PATH: %s", LIB_PATH)
 DIR = LIB_PATH + '/ui/'
 LABEL_OUT = './label.png'
 
@@ -105,8 +109,8 @@ def print_label(serial_number, test_result, date_time):
         try:
                 send(instructions=instructions, printer_identifier=printer, backend_identifier=backend, blocking=True)
                 return True
-        except ValueError as e:
-                print("The lable printer is off. Please turn it on and try again.")
+        except ValueError:
+                logger.error("The label printer is off. Please turn it on and try again.")
                 return False
 
 
@@ -116,16 +120,12 @@ def main():
         now = datetime.now()
         date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
         s = print_label(serial_number, test_result, date_time)
-        print(s)
-
+        logger.info("Print result: %s", s)
 
 
 if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print('Interrupted')
-        try:
-            sys.exit(0)
-        except SystemExit:
-            os._exit(0)
+        logger.info("Interrupted")
+        sys.exit(0)

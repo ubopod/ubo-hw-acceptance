@@ -1,15 +1,11 @@
-import os
 import logging
-import logging.config
+import os
 import socket
 import time
 
 LM_SOCKET_PATH = "/home/pi/ubo/ledmanagersocket.sock"
-LOG_CONFIG = "/home/pi/ubo/log/logging-debug.ini"
-logging.config.fileConfig(LOG_CONFIG,
-                          disable_existing_loggers=False)
 
-logger = logging.getLogger("led_client")
+logger = logging.getLogger(__name__)
 
 
 class LEDClient:
@@ -60,7 +56,7 @@ class LEDClient:
         if self.client is None:
             return
         if brightness < 0 or brightness > 1:
-            print("brightness must be between 0 and 1")
+            logger.warning("brightness must be between 0 and 1")
             return
         self.send("set_brightness " +
                   str(brightness))
@@ -182,10 +178,10 @@ if __name__ == '__main__':
     lc.set_enabled(True)
     lc.set_all((255, 255, 255))
     time.sleep(1)
-    print("white ring must glow for 1 second")
+    logger.info("white ring must glow for 1 second")
     lc.set_enabled(False)
     lc.set_all((255, 0, 0))
-    print("red ring must NOT glow for 1 second")
+    logger.info("red ring must NOT glow for 1 second")
     time.sleep(1)
     lc.set_enabled(True)
     lc.blank()

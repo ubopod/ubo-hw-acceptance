@@ -1,32 +1,23 @@
-from tkinter import N
 import board
-import sys
-import neopixel
-import time
+import configparser
+import logging
 import os
 import socket
 import stat
-from threading import Thread
+import sys
 import time
-import logging.config
+from threading import Thread
+
+import neopixel
 
 up_dir = os.path.dirname(os.path.abspath(__file__)) + '/../'
 sys.path.append(up_dir)
 
 LM_SOCKET_PATH = "/home/pi/ubo/ledmanagersocket.sock"
-# The order of the pixel colors - RGB or GRB.
-# Some NeoPixels have red and green reversed!
-# For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
 ORDER = neopixel.GRB
 CONFIG_FILE = '/home/pi/ubo/config/config.ini'
-try:
-    from self.configparser import configparser
-except ImportError:
-    import configparser
 
-LOG_CONFIG = "/home/pi/ubo/log/logging-debug.ini"
-logging.config.fileConfig(LOG_CONFIG,
-                          disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 class LEDManager():
@@ -38,11 +29,10 @@ class LEDManager():
         self.current_bright_one = 1
         self.config = configparser.ConfigParser()
         self.config.read(CONFIG_FILE)
-        self.logger = logging.getLogger("leds")
         if self.config.has_option('hw', 'leds_brightness'):
             brightness = float(self.config.get('hw', 'leds_brightness'))
             if brightness < 0 or brightness > 1:
-                print("Invalid brightness value in config file")
+                logger.warning("Invalid brightness value in config file")
                 self.brightness = 1
             else:
                 self.brightness = brightness
@@ -90,7 +80,7 @@ class LEDManager():
         for i in range(int(self.num_leds * percentage)):
             if self.STOP == True:
                 self.blank()
-                print("stopped")
+                logger.debug("Animation stopped")
                 return
             self.pixels[i] = self.adjust_brightness(color)
             time.sleep(wait/1000)
@@ -107,7 +97,7 @@ class LEDManager():
         for i in range(int(self.num_leds * percentage)-1, -1, -1):
             if self.STOP == True:
                 self.blank()
-                print("stopped")
+                logger.debug("Animation stopped")
                 return            
             self.pixels[i] = (0,0,0)
             time.sleep(wait/1000)
@@ -161,7 +151,7 @@ class LEDManager():
             for j in range(255):
                 if self.STOP == True:
                     self.blank()
-                    print("stopped")
+                    logger.debug("Animation stopped")
                     return
                 for i in range(self.num_leds):
                     pixel_index = (i * 256 // self.num_leds) + j
@@ -185,7 +175,7 @@ class LEDManager():
             for i in range(dim_steps):
                 if self.STOP == True:
                     self.blank()
-                    print("stopped")
+                    logger.debug("Animation stopped")
                     return
                 m = (i / dim_steps)
                 self.pixels.fill((color[0] * m,
@@ -196,7 +186,7 @@ class LEDManager():
             for i in range(dim_steps):
                 if self.STOP == True:
                     self.blank()
-                    print("stopped")
+                    logger.debug("Animation stopped")
                     return
                 j = (dim_steps - i) / dim_steps
                 self.pixels.fill( (color[0] * j ,
@@ -215,7 +205,7 @@ class LEDManager():
         for _r in range(repetitions):
             if self.STOP == True:
                 self.blank()
-                print("stopped")
+                logger.debug("Animation stopped")
                 return
             self.pixels.fill( (color[0],
                             color[1],
@@ -232,13 +222,13 @@ class LEDManager():
         ring = [(0,0,0)] * self.num_leds
         ring[0:length] = [color] * (length)
         if length > self.num_leds:
-            print("invalid light strip length! must be under {}".format(self.num_leds))
+            logger.warning("Invalid light strip length! Must be under %d", self.num_leds)
             return
         for _r in range(repetitions): 
             for i in range(self.num_leds):
                 if self.STOP == True:
                     self.blank()
-                    print("stopped")
+                    logger.debug("Animation stopped")
                     return
                 shifted = ring[i:] + ring[:i]
                 #for j in self.num_leds
@@ -258,7 +248,7 @@ class LEDManager():
         self.pixels.show()
 
     def run_command(self, incoming):
-        self.logger.info("---executing command---")
+        logger.info("Executing command: %s", incoming[0])
         self.incoming = incoming
         self.STOP = False
         if incoming[0] == "set_enabled":
@@ -349,25 +339,23 @@ if __name__ == '__main__':
     if os.path.exists(LM_SOCKET_PATH):
         os.remove(LM_SOCKET_PATH)
 
-    print("LED Manager opening socket...")
+    logger.info("LED Manager opening socket...")
     server = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
     server.bind(LM_SOCKET_PATH)
-    print(hex(stat.S_IRUSR))
     permission = stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH | stat.S_IWGRP | stat.S_IWUSR
-    print(hex(permission))
+    logger.debug("Socket permission: 0x%x", permission)
     os.chmod(LM_SOCKET_PATH,
              permission)
 
-    print("LED Manager Listening...")
+    logger.info("LED Manager Listening...")
     while True:
         try:
             datagram = server.recv(1024)
             if not datagram:
                 break
             else:
-                print("-" * 20)
                 incoming_str = datagram.decode('utf-8')
-                print(incoming_str)
+                logger.debug("Received: %s", incoming_str)
                 incoming = incoming_str.split()
                 # set brightness of LEDs
                 if incoming[0] == "set_brightness":
@@ -380,18 +368,14 @@ if __name__ == '__main__':
                     while t.is_alive():
                         time.sleep(0.1)
                     # save some data before overriding the object
-                    lm.logger.info("---starting new led thread--")
+                    logger.info("Starting new LED thread")
                     t = Thread(target=lm.run_command, args=(incoming,))
                     t.start()
         except KeyboardInterrupt:
-            print('Interrupted')
+            logger.info("Interrupted")
             server.close()
-            try:
-                sys.exit(0)
-            except SystemExit:
-                os._exit(0)
-    print("-" * 20)
-    print("Shutting down...")
+            sys.exit(0)
+    logger.info("Shutting down...")
     server.close()
     os.remove(LM_SOCKET_PATH)
-    print("Done")
+    logger.info("Done")
