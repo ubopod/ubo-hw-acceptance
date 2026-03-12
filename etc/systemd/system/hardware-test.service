@@ -3,6 +3,7 @@ Description=Hardware Test Service
 
 [Service]
 User=root
+Environment=PATH=/home/pi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ExecStart=/bin/bash /home/pi/ubo/tests/hw_acceptance/test.sh
 KillMode=control-group
 Restart=on-failure

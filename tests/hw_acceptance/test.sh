@@ -1,7 +1,7 @@
 #!/bin/bash
 
 print_result () {
-	if [ $2 -eq 0 ]; then
+	if [ "$2" -eq 0 ]; then
 	   echo -e "\e[39m$1 \t\t\t\t\t [ \e[32mOK \e[39m]"
 	else
 	   echo -e "\e[39m$1 \t\t\t\t\t [ \e[91mFAIL \e[39m]"
@@ -9,12 +9,16 @@ print_result () {
 }
 
 # update files if there's an update on github master branch.
+git config --global --add safe.directory /home/pi/ubo
 git checkout master
 git pull --no-rebase https://github.com/ubopod/ubo-hw-acceptance.git
 # Sync venv with project dependencies
 UBO_HOME=/home/pi/ubo
 uv sync --directory $UBO_HOME
 source $UBO_HOME/.venv/bin/activate
+
+# Initialize all test results to failure (1) so skipped tests report FAIL
+eeprom=1 i2c=1 lcd=1 buttons=1 led=1 ambient=1 temp=1 speaker=1 mic=1 ir=1
 
 #read -p "Press any key for EEPROM test" -n1 -s
 echo -e "\n\n========= Starting EEPROM Test ============"
