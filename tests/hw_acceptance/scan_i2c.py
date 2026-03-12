@@ -64,7 +64,7 @@ def perform_scan(summary=None):
         if len(scanned_addressed) == 0:
             logger.warning("No devices found - I2C bus issue")
             summary["i2c_bus"]["status"] = "open_bus"
-        if 0 < len(scanned_addressed) < 4:
+        if 0 < len(scanned_addressed) <= 4:
             logger.info("Found %d devices on I2C bus", len(scanned_addressed))
             summary["i2c_bus"]["status"] = "functional_bus"
             if '0x1a' in scanned_addressed:

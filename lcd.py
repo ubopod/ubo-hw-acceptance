@@ -399,7 +399,8 @@ class LCD:
         if len(lines) > 2:
             raise Exception("The title text is too long. It must be less than 30 characters")
         for line in lines:
-            width, height = fnt.getsize(line)
+            bbox = fnt.getbbox(line)
+            width, height = bbox[2] - bbox[0], bbox[3] - bbox[1]
             d.text((124, y_text), line, font=fnt, anchor="ma", fill=(255, 255, 255, 255))
             y_text += height
         # Define some offsets
@@ -449,7 +450,8 @@ class LCD:
         if len(lines) > 2:
             raise Exception("The title text is too long. It must be less than 15 characters")
         for line in lines:
-            width, height = fnt.getsize(line)
+            bbox = fnt.getbbox(line)
+            width, height = bbox[2] - bbox[0], bbox[3] - bbox[1]
             d.text((124, y_text), line, font=fnt, anchor="ma", fill=(255, 255, 255, 255))
             y_text += height
         # Define some offsets
@@ -484,7 +486,8 @@ class LCD:
         if len(lines) > 1:
             raise Exception("The title text is too long. It must be less than 10 characters")
         for line in lines:
-            width, height = fnt.getsize(line)
+            bbox = fnt.getbbox(line)
+            width, height = bbox[2] - bbox[0], bbox[3] - bbox[1]
             d.text((124, y_text), line, font=fnt, anchor="ma", fill=(255, 255, 255, 255))
             y_text += height
         # Define some offsets
