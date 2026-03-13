@@ -18,7 +18,7 @@ dependencies = [
     "adafruit-pureio",
     "adafruit-ssd1306",
 
-    "rpi-eeprom[gpio]",
+    "rpi-eeprom[gpio]>=1.1.0",
     "rpi-ws281x",
     "markdown",
     "numpy",
