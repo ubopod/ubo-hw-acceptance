@@ -111,40 +111,25 @@ def main():
     date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
     summary = {"timedate": date_time}
 
-    version = data.get("version")
-    if version == "V1":
-        v1_tests = ('keypad', 'lcd', 'led', 'eeprom')
-        all_passed = all(data.get(t, {}).get('test_result') for t in v1_tests)
-    elif version == "V2":
-        v2_tests = ('keypad', 'lcd', 'led', 'eeprom', 'speakers',
-                     'microphones', 'ambient', 'temperature', 'infrared')
-        all_passed = all(data.get(t, {}).get('test_result') for t in v2_tests)
-    else:
-        all_passed = False
+    all_tests = ('keypad', 'lcd', 'led', 'eeprom', 'speakers',
+                  'microphones', 'ambient', 'temperature', 'infrared')
+    all_passed = all(data.get(t, {}).get('test_result') for t in all_tests)
 
     summary["test_result"] = all_passed
 
-    if version in ("V1", "V2"):
-        if all_passed:
-            lcd.display([
-                (1, "All Tests", 0, "white"),
-                (2, "Passed!", 0, "green"),
-                (3, chr(56), 1, "green"),
-            ], 24)
-        else:
-            lcd.display([
-                (1, "Some Tests", 0, "white"),
-                (2, "Failed!", 0, "red"),
-                (3, chr(50), 1, "red"),
-            ], 24)
-        time.sleep(2)
+    if all_passed:
+        lcd.display([
+            (1, "All Tests", 0, "white"),
+            (2, "Passed!", 0, "green"),
+            (3, chr(56), 1, "green"),
+        ], 24)
     else:
         lcd.display([
-            (1, "No Valid", 0, "white"),
-            (2, "Version!", 0, "red"),
+            (1, "Some Tests", 0, "white"),
+            (2, "Failed!", 0, "red"),
             (3, chr(50), 1, "red"),
-        ], 23)
-        time.sleep(2)
+        ], 24)
+    time.sleep(2)
 
     lcd.display([
         (1, "Updating", 0, "white"),

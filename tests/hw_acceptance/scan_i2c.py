@@ -4,6 +4,7 @@
 
 """CircuitPython I2C Device Address Scan"""
 
+import argparse
 import logging
 import time
 import board
@@ -91,19 +92,6 @@ def perform_scan(summary=None):
                 summary["keypad"]["bus_address"] = '0x58'
             else:
                 logger.warning("No keypad GPIO expander IC detected")
-            # determine SKU
-            if (summary["keypad"]["bus_address"] and
-                    summary["ambient"]["bus_address"] and
-                    summary["temperature"]["bus_address"] and
-                    summary["speakers"]["bus_address"]):
-                summary["version"] = "V2"
-            elif (summary["keypad"]["bus_address"] is not False and
-                  summary["ambient"]["bus_address"] is False and
-                  summary["temperature"]["bus_address"] is False and
-                  summary["speakers"]["bus_address"] is False):
-                summary["version"] = "V1"
-            else:
-                summary["version"] = "unknown"
     finally:
         i2c.unlock()
     return summary
@@ -122,9 +110,14 @@ def show_summary(data):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--version", default="V2", help="Board version (default: V2)")
+    args = parser.parse_args()
+
     summary = {"speakers": {}, 'microphones': {}, "temperature": {}, "ambient": {}, "keypad": {}, "i2c_bus": {}, "version": ""}
     lcd.display([(1, "Scanning", 0, "white"), (2, "the I2C Bus...", 0, "white")], 20)
     summary = perform_scan(summary)
+    summary["version"] = args.version
     show_summary(summary)
     time.sleep(1)
     logger.debug("I2C scan summary: %s", summary)
@@ -138,14 +131,10 @@ def main():
     elif summary["i2c_bus"]["status"] == "functional_bus":
         if summary['keypad']['bus_address'] is False:
             lcd.display([(1, "No Keypad", 0, "white"), (2, "IC detected!", 0, "white"), (3, chr(50), 1, "red")], 20)
-        elif summary["version"] == "V1":
-            lcd.display([(1, "Minimum SKU", 0, "white"), (2, "Device Found!", 0, "white")], 21)
+        else:
+            sku_label = "Full SKU" if args.version == "V2" else "Minimum SKU"
+            lcd.display([(1, sku_label, 0, "white"), (2, "Device Found!", 0, "white")], 21)
             time.sleep(2)
-            sys.exit(64)
-        elif summary["version"] == "V2":
-            lcd.display([(1, "Full SKU", 0, "white"), (2, "Device Found!", 0, "white")], 21)
-            time.sleep(2)
-            sys.exit(65)
 
 
 if __name__ == '__main__':

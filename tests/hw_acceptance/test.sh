@@ -32,7 +32,7 @@ eeprom=$?
 
 #read -p "Press any key to scan I2C bus" -n1 -s
 echo -e "\n\n========= Starting I2C Bus Scan ============"
-python3 scan_i2c.py
+python3 scan_i2c.py --version V2
 i2c=$?
 
 #read -p "Press any key for LCD test" -n1 -s
@@ -52,31 +52,28 @@ then
 	echo -e "\n\n========= Starting LED Test ============"
 	python3 test_led.py
 	led=$?
-	# if does not have sensors, IR, and audio (V1 SKU), then skip those tests
-	if [ $i2c -eq 65 ] 
-	then
-		#read -p "Press any key for light sensor test" -n1 -s
-		echo -e "\n\n========= Starting Light Sensor Test ============"
-		python3 test_ambient.py
-		ambient=$?
 
-		#read -p "Press any key for temperature test" -n1 -s
-		echo -e "\n\n========= Starting Temparture Sensor Test ============"
-		python3 test_temperature.py
-		temp=$?
+	#read -p "Press any key for light sensor test" -n1 -s
+	echo -e "\n\n========= Starting Light Sensor Test ============"
+	python3 test_ambient.py
+	ambient=$?
 
-		echo -e "\n\n========= Starting speaker Test ============"
-		python3 test_speakers.py
-		speaker=$?
+	#read -p "Press any key for temperature test" -n1 -s
+	echo -e "\n\n========= Starting Temparture Sensor Test ============"
+	python3 test_temperature.py
+	temp=$?
 
-		echo -e "\n\n========= Starting microphone Test ============"
-		python3 test_microphone.py
-		mic=$?
+	echo -e "\n\n========= Starting speaker Test ============"
+	python3 test_speakers.py
+	speaker=$?
 
-		echo -e "\n\n========= Starting Infrared Test ============"
-		python3 test_ir.py
-		ir=$?
-	fi
+	echo -e "\n\n========= Starting microphone Test ============"
+	python3 test_microphone.py
+	mic=$?
+
+	echo -e "\n\n========= Starting Infrared Test ============"
+	python3 test_ir.py
+	ir=$?
 
 fi
  
