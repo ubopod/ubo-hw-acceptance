@@ -112,9 +112,9 @@ class state_machine(KEYPAD):
         lcd.show_image(image)
         time.sleep(2)
         if self.repeat_counter == self.num_retries:
-            lcd.show_prompt("Did you see text, QR & colors?", [{"text": "Yes", "color": "green"}, {"text": "No", "color": "red"}])
+            lcd.show_prompt("See QR, text & colors?", [{"text": "Yes", "color": "green"}, {"text": "No", "color": "red"}])
         else:
-            lcd.show_prompt("Did you see text, QR & colors?", [{"text": "Yes", "color": "green"}, {"text": "Retry", "color": "red"}])
+            lcd.show_prompt("See QR, text & colors?", [{"text": "Yes", "color": "green"}, {"text": "Retry", "color": "red"}])
 
 
 def main():
