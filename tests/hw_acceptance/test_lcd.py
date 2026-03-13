@@ -10,7 +10,8 @@ from logging_setup import setup_logging
 setup_logging()
 logger = logging.getLogger(__name__)
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
+import qrcode
 from lcd import LCD
 from ubo_keypad import KEYPAD, BUTTONS, math
 from test_report import update_json
@@ -46,63 +47,19 @@ class state_machine(KEYPAD):
             if self.state_index == 0:
                 if BUTTONS[index] == "1":
                     self.test_report["qrcode"] = True
+                    self.test_report["red"] = True
+                    self.test_report["green"] = True
+                    self.test_report["blue"] = True
                     self.state_index = 1
                     self.repeat_counter = 0
-                    self.show_color_and_prompt("red")
                 if BUTTONS[index] == "2":
                     self.repeat_counter += 1
                     if self.repeat_counter > self.num_retries:
-                        self.test_report["qrcode"] = False
                         self.state_index = 1
                         self.repeat_counter = 0
-                        self.show_color_and_prompt("red")
                     else:
-                        self.show_color_and_prompt("qrcode")
-            elif self.state_index == 1:
-                if BUTTONS[index] == "1":
-                    self.test_report["red"] = True
-                    self.state_index = 2
-                    self.repeat_counter = 0
-                    self.show_color_and_prompt("green")
-                if BUTTONS[index] == "2":
-                    self.repeat_counter += 1
-                    if self.repeat_counter > self.num_retries:
-                        self.test_report["red"] = False
-                        self.state_index = 2
-                        self.repeat_counter = 0
-                        self.show_color_and_prompt("green")
-                    else:
-                        self.show_color_and_prompt("red")
-            elif self.state_index == 2:
-                logger.debug("state = %d", self.state_index)
-                if BUTTONS[index] == "1":
-                    self.test_report["green"] = True
-                    self.state_index = 3
-                    self.repeat_counter = 0
-                    self.show_color_and_prompt("blue")
-                if BUTTONS[index] == "2":
-                    self.repeat_counter += 1
-                    if self.repeat_counter > self.num_retries:
-                        self.test_report["green"] = False
-                        self.state_index = 3
-                        self.repeat_counter = 0
-                        self.show_color_and_prompt("blue")
-                    else:
-                        self.show_color_and_prompt("green")
-            elif self.state_index == 3:
-                if BUTTONS[index] == "1":
-                    self.test_report["blue"] = True
-                    self.state_index = 4
-                    self.repeat_counter = 0
-                if BUTTONS[index] == "2":
-                    self.repeat_counter += 1
-                    if self.repeat_counter > self.num_retries:
-                        self.test_report["blue"] = False
-                        self.repeat_counter = 0
-                        self.state_index = 4
-                    else:
-                        self.show_color_and_prompt("blue")
-            if self.state_index == 4:
+                        self.show_test_screen()
+            if self.state_index == 1:
                 if (self.test_report["qrcode"] and self.test_report["blue"]
                         and self.test_report["green"] and self.test_report["red"]):
                     lcd.display([(1, "LCD Test", 0, "white"), (2, "Result:", 0, "white"), (3, "Passed", 0, "green"), (4, chr(56), 1, "green")], 30)
@@ -111,36 +68,61 @@ class state_machine(KEYPAD):
                     lcd.display([(1, "LCD Test", 0, "white"), (2, "Result:", 0, "white"), (3, "Failed", 0, "red"), (4, chr(50), 1, "red")], 30)
                     self.test_result = False
                 time.sleep(2)
-                self.state_index = 5
+                self.state_index = 2
 
-    def show_color_and_prompt(self, content):
-        if content == "qrcode":
-            lcd.display([(1, "Title:", 0, "white"), (2, "some text", 0, "red"), (3, "zxcvbnmmm,./asdfghjkl;qwertyuiop", 2, "green")], 20)
-            time.sleep(2)
-            if self.repeat_counter == self.num_retries:
-                lcd.show_prompt("Did you see text & QR code?", [{"text": "Yes", "color": "green"}, {"text": "No", "color": "red"}])
-            else:
-                lcd.show_prompt("Did you see text & QR code?", [{"text": "Yes", "color": "green"}, {"text": "Retry", "color": "red"}])
-        if content in ["green", "red", "blue"]:
-            color = content
-            image = Image.new("RGB", (240, 240), color)
-            draw = ImageDraw.Draw(image)
-            draw.rectangle((0, 0, 240, 240), outline=0, fill=color)
-            lcd.show_image(image)
-            time.sleep(0.5)
-            message = "Did you see a " + color + " screen?"
-            if self.repeat_counter == self.num_retries:
-                lcd.show_prompt(message, [{"text": "Yes", "color": "green"}, {"text": "No", "color": "red"}])
-            else:
-                lcd.show_prompt(message, [{"text": "Yes", "color": "green"}, {"text": "Retry", "color": "red"}])
+    def show_test_screen(self):
+        image = Image.new("RGB", (240, 240), "black")
+        draw = ImageDraw.Draw(image)
+
+        # Title and sample text at the top
+        try:
+            fnt = ImageFont.truetype(up_dir + 'rubik/Rubik-Light.ttf', 18)
+        except Exception:
+            fnt = ImageFont.load_default()
+        draw.text((10, 5), "Title:", fill="white", font=fnt)
+        draw.text((10, 28), "some text", fill="red", font=fnt)
+
+        # QR code in the middle
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=4,
+            border=1,
+        )
+        qr.add_data("ubo-test")
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill_color="white", back_color="black").convert("RGB")
+        qr_size = min(qr_img.size[0], 120)
+        qr_img = qr_img.resize((qr_size, qr_size))
+        qr_x = (240 - qr_size) // 2
+        image.paste(qr_img, (qr_x, 55))
+
+        # Three colored circles at the bottom
+        circle_y = 195
+        circle_r = 20
+        circle_spacing = 70
+        start_x = (240 - (3 * circle_spacing - (circle_spacing - 2 * circle_r))) // 2
+        for i, color in enumerate(["red", "green", "blue"]):
+            cx = start_x + i * circle_spacing
+            draw.ellipse(
+                [cx - circle_r, circle_y - circle_r, cx + circle_r, circle_y + circle_r],
+                fill=color,
+            )
+
+        lcd.show_image(image)
+        time.sleep(2)
+        if self.repeat_counter == self.num_retries:
+            lcd.show_prompt("Did you see text, QR & colors?", [{"text": "Yes", "color": "green"}, {"text": "No", "color": "red"}])
+        else:
+            lcd.show_prompt("Did you see text, QR & colors?", [{"text": "Yes", "color": "green"}, {"text": "Retry", "color": "red"}])
 
 
 def main():
     lcd.display([(1, "Starting", 0, "white"), (2, "LCD Display", 0, "white"), (3, "Test", 0, "white")], 25)
     S = state_machine()
-    S.show_color_and_prompt("qrcode")
+    S.show_test_screen()
     logger.debug("Initial state: %d", S.state_index)
-    while S.state_index != 5:
+    while S.state_index != 2:
         time.sleep(1)
     logger.info("LCD test result: %s", S.test_result)
     summary = {"lcd": {}}

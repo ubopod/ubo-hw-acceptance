@@ -22,6 +22,18 @@ lcd.set_lcd_present(1)
 pixels = neopixel.NeoPixel(board.D12, 27)
 
 
+def wheel(pos):
+    """Generate rainbow color for position 0-255."""
+    if pos < 85:
+        return (pos * 3, 255 - pos * 3, 0)
+    elif pos < 170:
+        pos -= 85
+        return (255 - pos * 3, 0, pos * 3)
+    else:
+        pos -= 170
+        return (0, pos * 3, 255 - pos * 3)
+
+
 class mykeypad(KEYPAD):
     def __init__(self, *args, **kwargs):
         super(mykeypad, self).__init__(*args, **kwargs)
@@ -29,7 +41,7 @@ class mykeypad(KEYPAD):
         self.repeat_counter = 0
         self.test_report = {"green": False, "red": False, "blue": False}
         self.test_result = False
-        self.num_retries = 0
+        self.num_retries = 1
 
     def key_press_cb(self, channel):
         inputs = self.aw.inputs
@@ -43,44 +55,18 @@ class mykeypad(KEYPAD):
             if self.state_index == 0:
                 if BUTTONS[index] == "1":
                     self.test_report["red"] = True
-                    self.show_color_and_prompt("green")
+                    self.test_report["green"] = True
+                    self.test_report["blue"] = True
                     self.state_index = 1
+                    self.repeat_counter = 0
                 if BUTTONS[index] == "2":
                     self.repeat_counter += 1
                     if self.repeat_counter > self.num_retries:
-                        self.test_report["red"] = False
                         self.state_index = 1
                         self.repeat_counter = 0
-                        self.show_color_and_prompt("green")
                     else:
-                        self.show_color_and_prompt("red")
-            elif self.state_index == 1:
-                if BUTTONS[index] == "1":
-                    self.test_report["green"] = True
-                    self.show_color_and_prompt("blue")
-                    self.state_index = 2
-                if BUTTONS[index] == "2":
-                    self.repeat_counter += 1
-                    if self.repeat_counter > self.num_retries:
-                        self.test_report["green"] = False
-                        self.state_index = 2
-                        self.repeat_counter = 0
-                        self.show_color_and_prompt("blue")
-                    else:
-                        self.show_color_and_prompt("green")
-            elif self.state_index == 2:
-                if BUTTONS[index] == "1":
-                    self.test_report["blue"] = True
-                    self.state_index = 3
-                if BUTTONS[index] == "2":
-                    self.repeat_counter += 1
-                    if self.repeat_counter > self.num_retries:
-                        self.test_report["blue"] = False
-                        self.repeat_counter = 0
-                        self.state_index = 3
-                    else:
-                        self.show_color_and_prompt("blue")
-            if self.state_index == 3:
+                        self.show_rainbow()
+            if self.state_index == 1:
                 if self.test_report["blue"] and self.test_report["green"] and self.test_report["red"]:
                     lcd.display([(1, "LED Test", 0, "white"), (2, "Result:", 0, "white"), (3, "Passed", 0, "green"), (4, chr(56), 1, "green")], 30)
                     self.test_result = True
@@ -88,28 +74,25 @@ class mykeypad(KEYPAD):
                     lcd.display([(1, "LED Test", 0, "white"), (2, "Result:", 0, "white"), (3, "Failed", 0, "red"), (4, chr(50), 1, "red")], 30)
                     self.test_result = False
                 time.sleep(2)
-                self.state_index = 4
+                self.state_index = 2
 
-    def show_color_and_prompt(self, color):
-        pixels.fill((0, 0, 0))
-        if color in ["green", "red", "blue"]:
-            pixels.fill(((255/2)*(color == "red"),
-                         (255/2)*(color == "green"),
-                         (255/2)*(color == "blue")))
-            message = "Is " + color + " led ring complete?"
-            if self.repeat_counter == self.num_retries:
-                lcd.show_prompt(message, [{"text": "Yes", "color": "green"}, {"text": "No", "color": "red"}])
-            else:
-                lcd.show_prompt(message, [{"text": "Yes", "color": "green"}, {"text": "Retry", "color": "red"}])
+    def show_rainbow(self):
+        for i in range(27):
+            pixels[i] = wheel(int(i * 255 / 27))
+        pixels.show()
+        if self.repeat_counter == self.num_retries:
+            lcd.show_prompt("Do you see a rainbow ring?", [{"text": "Yes", "color": "green"}, {"text": "No", "color": "red"}])
+        else:
+            lcd.show_prompt("Do you see a rainbow ring?", [{"text": "Yes", "color": "green"}, {"text": "Retry", "color": "red"}])
 
 
 def main():
     lcd.display([(1, "Starting", 0, "white"), (2, "LED Ring", 0, "white"), (3, "Test", 0, "white")], 25)
     state_machine = mykeypad()
     time.sleep(0.5)
-    state_machine.show_color_and_prompt("red")
+    state_machine.show_rainbow()
     logger.debug("Initial state: %d", state_machine.state_index)
-    while state_machine.state_index != 4:
+    while state_machine.state_index != 2:
         time.sleep(1)
     pixels.fill((0, 0, 0))
     summary = {"led": {}}
