@@ -159,42 +159,48 @@ def main():
     with open(json_filepath) as f:
         S.data = json.load(f)
 
-    upload_result = False
-    for attempt in range(4):
-        try:
-            if attempt == 0:
-                lcd.display([
-                    (1, "Uploading File", 0, "white"),
-                    (2, object_filename, 0, "green"),
-                ], 15)
-            else:
-                lcd.display([
-                    (1, "Upload Failed", 0, "white"),
-                    (2, "Trying Again...", 0, "white"),
-                    (3, "Retry No: " + str(attempt), 0, "red"),
-                    (4, json_filepath, 0, "white"),
-                ], 16)
-            upload_result = upload_file(json_filepath, bucket_name, object_name=object_filename)
-            if upload_result:
-                break
-            time.sleep(1)
-        except Exception:
-            logger.exception("File upload failed (attempt %d)", attempt + 1)
-
-    if upload_result:
-        logger.info("File upload succeeded")
-        lcd.display([
-            (1, "File Upload", 0, "white"),
-            (2, "Succeeded", 0, "green"),
-            (3, chr(56), 1, "green"),
-        ], 25)
+    access_key = os.environ.get("AWS_ACCESS_KEY_ID", "")
+    secret_key = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+    if not access_key or not secret_key:
+        logger.info("AWS credentials not provided — skipping S3 upload")
+        upload_result = False
     else:
-        logger.error("File upload failed after all retries")
-        lcd.display([
-            (1, "File Upload", 0, "white"),
-            (2, "Failed", 0, "red"),
-            (3, chr(50), 1, "red"),
-        ], 25)
+        upload_result = False
+        for attempt in range(4):
+            try:
+                if attempt == 0:
+                    lcd.display([
+                        (1, "Uploading File", 0, "white"),
+                        (2, object_filename, 0, "green"),
+                    ], 15)
+                else:
+                    lcd.display([
+                        (1, "Upload Failed", 0, "white"),
+                        (2, "Trying Again...", 0, "white"),
+                        (3, "Retry No: " + str(attempt), 0, "red"),
+                        (4, json_filepath, 0, "white"),
+                    ], 16)
+                upload_result = upload_file(json_filepath, bucket_name, object_name=object_filename)
+                if upload_result:
+                    break
+                time.sleep(1)
+            except Exception:
+                logger.exception("File upload failed (attempt %d)", attempt + 1)
+
+        if upload_result:
+            logger.info("File upload succeeded")
+            lcd.display([
+                (1, "File Upload", 0, "white"),
+                (2, "Succeeded", 0, "green"),
+                (3, chr(56), 1, "green"),
+            ], 25)
+        else:
+            logger.error("File upload failed after all retries")
+            lcd.display([
+                (1, "File Upload", 0, "white"),
+                (2, "Failed", 0, "red"),
+                (3, chr(50), 1, "red"),
+            ], 25)
 
     lcd.display([
         (1, "Printing", 0, "white"),
