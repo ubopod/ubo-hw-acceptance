@@ -76,11 +76,13 @@ class state_machine(KEYPAD):
 
         # Title and sample text at the top
         try:
-            fnt = ImageFont.truetype(up_dir + 'rubik/Rubik-Light.ttf', 18)
+            fnt_title = ImageFont.truetype(up_dir + 'rubik/Rubik-Light.ttf', 50)
+            fnt_text = ImageFont.truetype(up_dir + 'rubik/Rubik-Light.ttf', 25)
         except Exception:
-            fnt = ImageFont.load_default()
-        draw.text((10, 5), "Title:", fill="white", font=fnt)
-        draw.text((10, 28), "some text", fill="red", font=fnt)
+            fnt_title = ImageFont.load_default()
+            fnt_text = ImageFont.load_default()
+        draw.text((10, 2), "Title:", fill="white", font=fnt_title)
+        draw.text((10, 55), "some text", fill="red", font=fnt_text)
 
         # QR code in the middle
         qr = qrcode.QRCode(
@@ -92,15 +94,15 @@ class state_machine(KEYPAD):
         qr.add_data("ubo-test")
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="white", back_color="black").convert("RGB")
-        qr_size = min(qr_img.size[0], 120)
+        qr_size = min(qr_img.size[0], 90)
         qr_img = qr_img.resize((qr_size, qr_size))
         qr_x = (240 - qr_size) // 2
-        image.paste(qr_img, (qr_x, 55))
+        image.paste(qr_img, (qr_x, 115))
 
         # Three colored circles at the bottom
-        circle_y = 195
-        circle_r = 20
-        circle_spacing = 70
+        circle_y = 220
+        circle_r = 10
+        circle_spacing = 50
         start_x = (240 - (3 * circle_spacing - (circle_spacing - 2 * circle_r))) // 2
         for i, color in enumerate(["red", "green", "blue"]):
             cx = start_x + i * circle_spacing
