@@ -83,9 +83,8 @@ def print_label(serial_number, test_result, date_time):
         image.save(LABEL_OUT)
 
         backend = 'pyusb'    # 'pyusb', 'linux_kernal', 'network'
-        model = 'QL-700' # your printer model.
-        #printer = 'usb://0x04f9:0x209b'    # Get these values from the Windows usb driver filter.  Linux/Raspberry Pi uses '/dev/usb/lp0'.
-        printer = 'usb://0x04f9:0x2042' #can beobtained using command > brother_ql -b pyusb discover
+        model = 'QL-800' # your printer model.
+        printer = 'usb://0x04f9:0x209b' #can be obtained using command > brother_ql -b pyusb discover
 
         qlr = BrotherQLRaster(model)
         qlr.exception_on_warning = True
