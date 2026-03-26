@@ -34,7 +34,9 @@ NUM_CYCLES = 7
 SAMPLES_PER_STATE = 5
 STATE_SETTLE_SECONDS = 0.25
 SAMPLE_INTERVAL_SECONDS = 0.05
-MIN_DELTA_LUX = 200
+MIN_DELTA_LUX = 40
+MIN_DISTRIBUTION_GAP_LUX = 40
+MIN_RATIO = 1.5
 MIN_GOOD_CYCLES = 5
 NOISE_MULTIPLIER = 6
 
@@ -86,32 +88,32 @@ def main():
             delta.append(delta_value)
             logger.debug("Delta = %d", delta_value)
         pixels.fill((0, 0, 0))
-        average_baseline = sum(baseline) / len(baseline)
-        average_reading = sum(reading) / len(reading)
-        average_delta = sum(delta) / len(delta)
         median_baseline = statistics.median(baseline)
         median_reading = statistics.median(reading)
         median_delta = statistics.median(delta)
+        median_ratio = median_reading / max(median_baseline, 1)
         baseline_noise = statistics.median([median_spread(window) for window in baseline_windows])
         reading_noise = statistics.median([median_spread(window) for window in reading_windows])
         noise_floor = max(baseline_noise, reading_noise)
         required_delta = max(MIN_DELTA_LUX, noise_floor * NOISE_MULTIPLIER)
-        good_cycles = sum(1 for value in delta if value >= required_delta)
-        result = median_delta >= required_delta and good_cycles >= MIN_GOOD_CYCLES
+        required_gap = max(MIN_DISTRIBUTION_GAP_LUX, noise_floor * 3)
+        cycle_ratios = [on_value / max(off_value, 1) for off_value, on_value in zip(baseline, reading)]
+        good_cycles = sum(
+            1 for value, ratio in zip(delta, cycle_ratios)
+            if value >= required_delta and ratio >= MIN_RATIO
+        )
+        distribution_gap = min(reading) - max(baseline)
+        result = (
+            median_delta >= required_delta and
+            median_ratio >= MIN_RATIO and
+            distribution_gap >= required_gap and
+            good_cycles >= MIN_GOOD_CYCLES
+        )
         test_report = {
             "works": result,
-            "baseline": average_baseline,
-            "reading": average_reading,
-            "delta": average_delta,
-            "baseline_median": median_baseline,
-            "reading_median": median_reading,
-            "delta_median": median_delta,
-            "required_delta": required_delta,
-            "good_cycles": good_cycles,
-            "num_cycles": NUM_CYCLES,
-            "baseline_noise": baseline_noise,
-            "reading_noise": reading_noise,
-            "cycle_deltas": delta,
+            "baseline": median_baseline,
+            "reading": median_reading,
+            "delta": median_delta,
         }
     else:
         lcd.display([(1, "No Light Sensor", 0, "white"), (2, "IC detected!", 0, "white"), (3, "Failed", 0, "red"), (4, chr(50), 1, "red")], 20)
